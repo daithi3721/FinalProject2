@@ -12,7 +12,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 @Table(name="mst_employees")
-public class Employee implements Serializable {
+public class Employees implements Serializable {
 	
 	@Id
 	@Column(name = "employee_id")
@@ -58,10 +58,12 @@ public class Employee implements Serializable {
 	private String address2;
 	
 	@Column(name = "hire_date")
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	@NotNull
 	private LocalDate hire_date;
 	
 	@Column(name = "quit_date")
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDate quit_date;
 	
 	@Column(name = "admin_type")
@@ -73,6 +75,7 @@ public class Employee implements Serializable {
 	private String password;
 	
 	@Column(name = "password_update")
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	@NotNull
 	private LocalDate password_update;
 	
@@ -243,15 +246,6 @@ public class Employee implements Serializable {
 	public void setUpdate_user(String update_user) {
 		this.update_user = update_user;
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 
 }
