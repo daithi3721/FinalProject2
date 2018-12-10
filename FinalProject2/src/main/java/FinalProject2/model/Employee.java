@@ -12,6 +12,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 @Table(name="mst_employees")
+//EmploymentInfoとの１対１マッピング実装済
 public class Employee implements Serializable {
 	
 	@Id
@@ -94,6 +95,10 @@ public class Employee implements Serializable {
 	@Column(name = "update_user")
 	@NotNull
 	private String update_user;
+	
+	@OneToOne
+	@JoinColumn(name="employee_id")
+	private EmploymentInfo employmentInfo;
 
 	public String getEmployee_id() {
 		return employee_id;
@@ -246,6 +251,13 @@ public class Employee implements Serializable {
 	public void setUpdate_user(String update_user) {
 		this.update_user = update_user;
 	}
-	
 
+	public EmploymentInfo getEmploymentInfo() {
+		return employmentInfo;
+	}
+
+	public void setEmploymentInfo(EmploymentInfo employmentInfo) {
+		this.employmentInfo = employmentInfo;
+	}
+	
 }

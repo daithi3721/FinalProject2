@@ -15,7 +15,7 @@ import FinalProject2.model.Employee;
 import FinalProject2.service.EmployeeService;
 
 @Controller
-@RequestMapping("employee")
+@RequestMapping("master/employee")
 public class EmployeeController {
 	
 	@Autowired
