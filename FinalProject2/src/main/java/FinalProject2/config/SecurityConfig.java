@@ -9,7 +9,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	
 	@Override
 	protected void configure(HttpSecurity web) throws Exception {
-		web.formLogin().loginPage("/login").defaultSuccessUrl("/inpg01").failureUrl("/login-error").permitAll();
-		web.authorizeRequests().antMatchers("/css/**", "/images/**", "/js/**").permitAll().anyRequest().authenticated();
+		web.formLogin().loginPage("/login").defaultSuccessUrl("/mypage").failureUrl("/login-error").permitAll();
+		web.authorizeRequests().antMatchers("static/css/**", "/images/**", "/js/**").permitAll().anyRequest().authenticated();
 	}
 }
