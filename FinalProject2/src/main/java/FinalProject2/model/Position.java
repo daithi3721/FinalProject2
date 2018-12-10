@@ -2,12 +2,14 @@ package FinalProject2.model;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.List;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name="mst_position")
+//EmploymentInfoとの１対多マッピング実装済
 public class Position implements Serializable {
 	
 	@Id
@@ -38,6 +40,10 @@ public class Position implements Serializable {
 	@Column(name = "update_user")
 	@NotNull
 	private String update_user;
+	
+	@OneToMany(mappedBy="position")
+	private List<EmploymentInfo> employmentInfoList;
+
 
 	public int getPosition_id() {
 		return position_id;
@@ -94,7 +100,13 @@ public class Position implements Serializable {
 	public void setUpdate_user(String update_user) {
 		this.update_user = update_user;
 	}
-	
-	
 
+	public List<EmploymentInfo> getEmploymentInfoList() {
+		return employmentInfoList;
+	}
+
+	public void setEmploymentInfoList(List<EmploymentInfo> employmentInfoList) {
+		this.employmentInfoList = employmentInfoList;
+	}
+	
 }

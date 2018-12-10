@@ -2,10 +2,12 @@ package FinalProject2.model;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
@@ -37,6 +39,7 @@ public class DayoffDivision implements Serializable {
 	@Column(name = "update_user")
 	@NotNull
 	private String update_user;
+
 
 	public int getDayoff_division_id() {
 		return dayoff_division_id;

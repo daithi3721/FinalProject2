@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="utf-8" />
+    <title>Listing Employees</title>
+    
+  </head>
+  <body>
+    <div class="container" >
+      <h1>Listing Employees</h1>
+            
+      <table class="table">
+        <thead>
+          <tr>
+            <th>従業員ID</th>
+            <th>氏名</th>
+            <th>性別</th>
+            <th>年齢</th>
+            <th>部署</th>
+            <th>役職</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr th:each="employee:${employees}" th:object="${employee}">
+            <td th:text="*{employee_id}"></td>
+            <td th:text="*{employee_name}"></td>
+            <td th:switch="*{sex}">
+		        <span th:case ="0">男性</span>
+		        <span th:case ="1">女性</span>
+		    </td>
+            <td th:text="*{birthday}"></td>
+            <td th:text="*{employmentInfo.department.deparetment_name}"></td>
+            <td th:text="*{employmentInfo.position.position_name}"></td>
+            <td>
+            		<a class="btn btn-default btn-xs" th:href="@{/master/employee/{employee_id}(employee_id=*{employee_id})}">詳細</a>
+            		<a class="btn btn-default btn-xs" th:href="@{/master/employee/{employee_id}/edit(employee_id=*{employee_id})}">編集</a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <a class="btn btn-default" href="/trainApp2/members/new">新規作成</a>
+    </div>
+  </body>
+</html>
