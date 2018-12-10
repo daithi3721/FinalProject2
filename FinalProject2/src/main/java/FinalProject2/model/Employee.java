@@ -12,7 +12,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 @Table(name="mst_employees")
-public class Employees implements Serializable {
+public class Employee implements Serializable {
 	
 	@Id
 	@Column(name = "employee_id")
