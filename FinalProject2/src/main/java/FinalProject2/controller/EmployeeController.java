@@ -26,7 +26,7 @@ public class EmployeeController {
         List<Employee> employees = employeeService.findAll();
         model.addAttribute("employees", employees);
         
-        return "employee/index";
+        return "master/employee/index";
     }
 	
 	@GetMapping("new")
