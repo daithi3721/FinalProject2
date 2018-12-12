@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.springframework.org/security/tags">
 <head>
   	<div th:include="include/head"></div>
 </head>
@@ -8,5 +8,11 @@
 </head>
 <body>
  	<div th:include="include/header"></div>
+ 	
+ 	<p th:text="${session.user}"></p>
+ 	<p th:text="${session.user.username}"></p>
+ 	<p th:text="${session.user.Authorities}"></p>
+
+
 </body>
 </html>

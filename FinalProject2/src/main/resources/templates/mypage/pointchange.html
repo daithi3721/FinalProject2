@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+  	<div th:include="include/head"></div>
+</head>
+<head>
+<title>ポイント交換</title>
+</head>
+<body>
+ 	<div th:include="include/header">
+ 	</div>
+ 	<div class="container col-md-8 col-md-offset-2">
+  	  <div class="panel panel-primary">
+	    <div class="panel-heading">
+	 	  <h2 class="panel-title">ポイント交換申請フォーム</h2>
+	    </div>
+	    <div class="panel-body">
+		  <div class="col-xs-4 col-xs-offset-1 pull-right">
+			<div class="panel panel-success">
+ 		  	  <div class="panel-heading">
+ 				<h2 class="panel-title">現在の利用可能ポイント</h2>
+ 		  	  </div>
+			  <div class="panel-body">
+ 		    	<p class="text-center" th:text="${point}+ポイント"></p>
+ 		  	  </div>
+ 			</div>
+ 	  	  </div>
+		  <form method="post" action="pointchange/">
+		    <div class="form-group col-xs-7">
+			  <label>経費名</label>
+ 	  		  <input class="form-control" name="cost_name" type="text">
+ 		  	</div>
+		  	<div class="form-group col-xs-7">
+	 		  <label>経費区分</label>
+	 	  	  <select class="form-control" name="cost_division">
+				<option th:each="costDivision:${costDivision}" th:value="${costDivision.cost_division_id}" th:text="${costDivision.cost_division_name}">
+			  </select>
+		  	</div>
+		  	<div class="form-group col-xs-7">
+ 	  		  <label>金額</label>
+	 	  	  <input class="form-control" name="money" type="number">
+		  	</div>
+		  	<div class="form-group col-xs-12">
+			  <label>備考</label>
+			  <textarea class="form-control" style="height:150px" name="detail"> </textarea>
+		  	</div>
+		    <div class="col-xs-4 col-xs-offset-4">
+		  	  <button class="btn btn-primary col-xs-12 center-block" type="submit">送信</button>
+		  	</div>
+	 	  </form>
+ 	    </div>
+ 	  </div> 	
+	</div>
+  </body>
+</html>

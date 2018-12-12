@@ -1,3 +1,4 @@
+          	<form role="form" id="logout" name="logout" th:action="@{/logout}" method="post">
 <nav class="navbar navbar-default">
   <div class="container-fluid">
     <div class="navbar-header">
@@ -12,13 +13,13 @@
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown">マイページ<span class="caret"></span></a>
 	          <ul class="dropdown-menu">
-	            <li><a href="#">マイページ</a></li>
+	            <li><a href="mypage">マイページ</a></li>
 	            <li><a href="#">マイタスク</a></li>
 	            <li><a href="#">マイポイント</a></li>
 	            <li><a href="#">マイボーナスポイント</a></li>
-	            <li><a href="#">マイアカウント</a></li>
+	            <li><a href="myaccount">マイアカウント</a></li>
 	            <li class="divider"></li>
-	            <li><a href="#">ポイント交換</a></li>
+	            <li><a href="mypointchange">ポイント交換</a></li>
 	          </ul>
         </li>
           <li class="dropdown">
@@ -32,6 +33,7 @@
           </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
+          <li><a href="#">生産性分析</a></li>
           <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">マスタ<span class="caret"></span></a>
             <ul class="dropdown-menu">
@@ -39,8 +41,9 @@
               <li><a href="#">その他マスタ</a></li>
             </ul>
           </li>
-          <li><a href="#">ログアウト</a></li>
+   			<li><a href="javascript:logout.submit()">ログアウト</a></li>
       </ul>
     </div>
   </div>
 </nav>
+			</form>
