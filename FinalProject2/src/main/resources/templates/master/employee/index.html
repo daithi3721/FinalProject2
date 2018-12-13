@@ -1,15 +1,54 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-  <head>
-    <meta charset="utf-8" />
-    <title>Listing Employees</title>
-    
-  </head>
-  <body>
+<html>
+<head>
+  	<div th:include="include/head"></div>
+</head>
+<head>
+<title>Insert title here</title>
+</head>
+<body>
+ 	<div th:include="include/header"></div>
+ 	
+ 	  <body>
     <div class="container" >
-      <h1>Listing Employees</h1>
-            
-      <table class="table">
+	   <div class="panel panel-primary" style="width: 80rem;">
+	   		<div class="panel-heading"><b>検索</b></div>
+	   		<div class="panel-body">
+	    			<form class="form-inline mr-auto"  th:action="@{/master/employee/employeeSearch}"  th:method="post"  th:object="${employeeSearch}">
+							  <b>従業員ID:</b>&nbsp;<input class="form-control mr-sm-2" type="text" name="employeeId_start" th:value="${employeeId_start}">
+							  ~ <input class="form-control mr-sm-2" type="text" name="employeeId_to"  th:value="${employeeId_to}">
+							  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							  <b>氏名:</b>&nbsp;<input class="form-control mr-sm-2" type="text"  name="employee_name" th:value="${employee_name}" >
+							  <br><br>
+							  <b>性別:</b>&nbsp;<select class="form-control" name="sex" >
+								  <option th:value="未選択">ｰｰ</option>
+								  <option th:value="男性" th:selected="'男性' == ${sex}">男性</option>
+								  <option th:value="女性" th:selected="'女性' == ${sex}">女性</option>
+							</select>
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>年齢:</b>&nbsp;<select class="form-control" name="age"  th:value ="${age}" >
+								  <option th:value="未選択">ｰｰ</option>
+								  <option th:value="20代" th:selected="'20代' == ${age}">20代</option>
+								  <option th:value="30代" th:selected="'30代' == ${age}">30代</option>
+								  <option th:value="40代" th:selected="'40代' == ${age}">40代</option>
+								  <option th:value="50代" th:selected="'50代' == ${age}">50代</option>
+							</select>
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>部署:</b>&nbsp;<select class="form-control" name="department_name">
+								  <option th:value="未選択">ｰｰ</option>
+								  <option th:each="department:${session.departments}"  th:value="${department.department_name}" th:selected="${department.department_name == department_name}">[[${department.department_name}]]</option>
+							</select>
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>役職:</b>&nbsp;<select class="form-control" name="position_name" >
+								  <option th:value="未選択">ｰｰ</option>
+								  <option th:each="position:${session.positions}"  th:value="${position.position_name}" th:selected="${position.position_name == position_name}">[[${position.position_name}]]</option>
+							</select>
+							<br><br>
+							 <button class="btn btn-primary pull-right" type="submit">検索</button>
+					</form>
+					
+	  		</div>
+		</div>
+      <h3>従業員一覧　<a class="btn btn-primary pull-right" href="/trainApp2/members/new">新規作成</a></h3>
+       
+      <table class="table table-hover table-sm table-bordered">
         <thead>
           <tr>
             <th>従業員ID</th>
@@ -25,21 +64,25 @@
           <tr th:each="employee:${employees}" >
             <td th:text="${employee.employee_id}"></td>
             <td th:text="${employee.employee_name}"></td>
-            <td th:switch="${employee.sex}">
-		        <span th:case ="0">男性</span>
-		        <span th:case ="1">女性</span>
-		    </td>
+            <td th:if="${employee.sex} == '0'" >男性</td>
+            <td th:if="${employee.sex} == '1'" >女性</td>
             <td th:text="${employee.birthday}"></td>
-            <!-- <td th:text="${employee.employmentInfo.department.department_name}"></td> -->
-            <td th:text="${employee.employmentInfo.position}"></td>
+            <td th:if="${employee.employmentInfo} != null" th:text="${employee.employmentInfo.department.department_name}"></td>
+            <td th:if="${employee.employmentInfo} == null" >退職済</td>
+            <td th:if="${employee.employmentInfo} != null" th:text="${employee.employmentInfo.position.position_name}"></td>
+            <td th:if="${employee.employmentInfo} == null" >退職済</td>
             <td>                                                                                     
-            		<a class="btn btn-default btn-xs" th:href="@{/master/employee/{employee_id}(employee_id=*{employee_id})}">詳細</a>
-            		<a class="btn btn-default btn-xs" th:href="@{/master/employee/{employee_id}/edit(employee_id=*{employee_id})}">編集</a>
+            		<a class="btn btn-primary btn-xs" th:href="@{/master/employee/{employee_id}(employee_id=*{employee_id})}">詳細</a>
+            		<a class="btn btn-primary btn-xs" th:href="@{/master/employee/{employee_id}/edit(employee_id=*{employee_id})}">編集</a>
             </td>
           </tr>
         </tbody>
       </table>
-      <a class="btn btn-default" href="/trainApp2/members/new">新規作成</a>
     </div>
   </body>
+ 	
+</body>
 </html>
+
+
+
