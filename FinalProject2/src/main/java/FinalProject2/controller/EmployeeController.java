@@ -7,6 +7,7 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -16,6 +17,7 @@ import FinalProject2.model.Department;
 import FinalProject2.model.Employee;
 import FinalProject2.model.EmployeeSearch;
 import FinalProject2.model.Position;
+import FinalProject2.pagination.PagenationHelper;
 import FinalProject2.service.DepartmentService;
 import FinalProject2.service.EmployeeService;
 import FinalProject2.service.PositionService;
@@ -39,39 +41,81 @@ public class EmployeeController {
 	@GetMapping
     public String index(Model model) {
 		
-        List<Employee> employees = employeeService.findAll();
+		//ページングの最初のページを設定
+		final int page_first = 0;
+		
+        Page<Employee> employees_page = employeeService.findAll(page_first);
+        
+        List<Employee> employees_list = employees_page.getContent();
         List<Department> departments = departmentService.findAll_activeDepartment();
         List<Position> positions = positionService.findAll_activePosition();
         
-        String employeeId_start = employees.get(0).getEmployee_id();
-        String employeeId_to = employees.get(employees.size() - 1).getEmployee_id();
-        
-        model.addAttribute("employees", employees);
+        model.addAttribute("employees", employees_page);
+
+        session.setAttribute("employees", employees_page);
         session.setAttribute("departments", departments);
         session.setAttribute("positions", positions);
-
-        model.addAttribute("employeeId_start", employeeId_start);
-        model.addAttribute("employeeId_to", employeeId_to);
+        
+        model.addAttribute("page", PagenationHelper.createPagenation(employees_page));
     
         return "master/employee/index";
     }
 	
-	@PostMapping("employeeSearch")
-	public String employeeSearch(@Valid @ModelAttribute EmployeeSearch employeeSearch, Model model) {
+	@GetMapping("page={page}")
+	public String paginate(@PathVariable(name = "page") String page, Model model) {
+		
+		int page_number = Integer.parseInt(page);
 		
 		List<Employee> employees_base = employeeService.findAll();
 		
+		EmployeeSearch employeeSearch = (EmployeeSearch) session.getAttribute("employeeSearch");
+		
+		Page<Employee> employees_page;
+		
+		if(employeeSearch == null) {
+			
+			employees_page = employeeService.findAll(page_number);
+			
+		} else {
+			
+			employees_page = employeeService.findBySearch(page_number, employees_base, employeeSearch);
+			
+		}
+		
+		model.addAttribute("employees", employees_page);
+		
+		model.addAttribute("page", PagenationHelper.createPagenation(employees_page));
+		
+		return "master/employee/index";
+		
+	}
+	
+	@PostMapping("employeeSearch")
+	public String employeeSearch(@Valid @ModelAttribute EmployeeSearch employeeSearch, Model model) {
+		
+		//ページングの最初のページを設定
+		final int page_first = 0;
+		
+		//検索条件を維持したままのページネーションを実装する為にフラグとして使う
+		session.setAttribute("employeeSearch", employeeSearch);
+		
+		//findBySearchの引数に渡すEmployeeリストを取得
+		List<Employee> employees_base = employeeService.findAll();
+		
+		//検索条件を取得
 		String employee_name = employeeSearch.getEmployee_name();
 		String age = employeeSearch.getAge();
 		String department_name = employeeSearch.getDepartment_name();
 		String position_name = employeeSearch.getPosition_name();
 		String sex = employeeSearch.getSex();
 		
-		List<Employee> employees = employeeService.findBySearch(employees_base, employeeSearch);
+		Page<Employee> employees_page = employeeService.findBySearch(page_first, employees_base, employeeSearch);
+		
 		String employeeId_start = null;
 		String employeeId_to = null;
 		
-		if(employees.size() == 0) {
+		if(employees_page.getSize() == 0) {
+
 			employeeId_start = employees_base.get(0).getEmployee_id();
 			employeeId_to = employees_base.get(employees_base.size() - 1).getEmployee_id();
 			
@@ -79,16 +123,21 @@ public class EmployeeController {
 			employeeId_start = employeeSearch.getEmployeeId_start();
 			employeeId_to = employeeSearch.getEmployeeId_to();
 		}
-		model.addAttribute("employees", employees);
-		model.addAttribute("employeeId_start", employeeId_start);
-        model.addAttribute("employeeId_to", employeeId_to);
-        model.addAttribute("employee_name", employee_name);
-        model.addAttribute("department_name", department_name);
-        model.addAttribute("position_name", position_name);
-        model.addAttribute("sex", sex);
-        model.addAttribute("age", age);
+		
+		model.addAttribute("employees", employees_page);
+		model.addAttribute("page", PagenationHelper.createPagenation(employees_page));
+		
+		//検索条件を画面に渡す
+		session.setAttribute("employeeId_start", employeeId_start);
+		session.setAttribute("employeeId_to", employeeId_to);
+		session.setAttribute("employee_name", employee_name);
+		session.setAttribute("department_name", department_name);
+		session.setAttribute("position_name", position_name);
+		session.setAttribute("sex", sex);
+		session.setAttribute("age", age);
         
 		return "master/employee/index";
+		
 	}
 	
 	@GetMapping("new")
