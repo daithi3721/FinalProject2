@@ -2,6 +2,13 @@
 <html xmlns:th="http://www.thymeleaf.org" >
 <head>
   	<div th:include="include/head"></div>
+  <script>
+  $(function() {
+	  $('.pass-pop').magnificPopup({
+	   type:'inline'
+	  });
+	});
+  </script>
 </head>
 <head>
 <title>マイアカウント</title>
@@ -55,7 +62,7 @@
 		<tr>
 		  <td><label>パスワード最終更新日</label></td>
 		  <td th:text="*{password_update}"></td>
-		  <td><button class="btn btn-primary pull-right">パスワード変更</button></td>
+		  <td><a class="btn btn-primary pull-right pass-pop" data-mfp-src="#pass-popup">パスワード変更</a></td>
 		</tr>
 		</tbody>
 		</table>
@@ -86,6 +93,30 @@
 			</tr>
 		  </tbody>
 		</table>
+	  </div>
+	</div>
+  </div>
+  <div id="pass-popup" class="mfp-hide col-md-6 col-md-offset-3">
+	<div class="panel panel-default">
+	  <div class="panel-heading">
+		<b class="panel-title">パスワード変更</b>
+	  </div>
+	  <div class="panel-body">
+		<form>
+		  <div class="form-group">
+			<label>現在のパスワード</label>
+			<input class="form-control" type="password" name="password">
+		  </div>
+		  <div class="form-group">
+			<label>新しいパスワード</label>
+			<input class="form-control" type="password" name="password">
+		  </div>
+		  <div class="form-group">
+			<label>新しいパスワード(確認用)</label>
+			<input class="form-control" type="password" name="password">
+		  </div>
+		    <button class="btn" type="submit">更新</button>
+		</form>
 	  </div>
 	</div>
   </div>
