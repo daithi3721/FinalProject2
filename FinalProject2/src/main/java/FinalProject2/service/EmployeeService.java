@@ -6,6 +6,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,6 +20,9 @@ public class EmployeeService {
 	
 	@Autowired
 	EmployeeRepository repository;
+	
+	@Autowired
+	PasswordEncoder passwordEncoder;
 	
 	//pagination実装のためにListからPageに戻り値の型を変更。キャストも追加
 	public List<Employee> findAll() {
@@ -126,5 +130,15 @@ public class EmployeeService {
 		
     	return new_employee;
     }
+
+	public boolean checkPass(String id, String pass) {
+		String dbPass = repository.findById(id).get().getPassword();
+		return passwordEncoder.matches(pass, dbPass);
+	}
+	
+	@Transactional
+	public void changePass(String username, String newPass) {
+		repository.changePass(username, passwordEncoder.encode(newPass));
+	}
 
 }

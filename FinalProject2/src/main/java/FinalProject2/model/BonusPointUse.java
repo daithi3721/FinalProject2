@@ -32,6 +32,10 @@ public class BonusPointUse implements Serializable {
 	@NotNull
 	private int bonus_point_use;
 	
+	@Column(name = "detail")
+	@NotNull
+	private String detail;
+	
 	@Column(name = "use_date")
 	@NotNull
 	private LocalDate use_date;
@@ -90,6 +94,14 @@ public class BonusPointUse implements Serializable {
 
 	public void setBonus_point_use(int bonus_point_use) {
 		this.bonus_point_use = bonus_point_use;
+	}
+
+	public String getDetail() {
+		return detail;
+	}
+
+	public void setDetail(String detail) {
+		this.detail = detail;
 	}
 
 	public LocalDate getUse_date() {

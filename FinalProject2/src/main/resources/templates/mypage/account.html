@@ -4,10 +4,15 @@
   	<div th:include="include/head"></div>
   <script>
   $(function() {
-	  $('.pass-pop').magnificPopup({
+	  $('.pop').magnificPopup({
 	   type:'inline'
 	  });
 	});
+  </script>
+  <script th:if="${errmsg1 != null || errmsg2 != null}">
+  	window.onload = function() {
+	  document.getElementById("passwordChangeButton").click();
+  	}
   </script>
 </head>
 <head>
@@ -62,7 +67,7 @@
 		<tr>
 		  <td><label>パスワード最終更新日</label></td>
 		  <td th:text="*{password_update}"></td>
-		  <td><a class="btn btn-primary pull-right pass-pop" data-mfp-src="#pass-popup">パスワード変更</a></td>
+		  <td><a class="btn btn-primary pull-right pop" data-mfp-src="#popup" id="passwordChangeButton">パスワード変更</a></td>
 		</tr>
 		</tbody>
 		</table>
@@ -96,24 +101,26 @@
 	  </div>
 	</div>
   </div>
-  <div id="pass-popup" class="mfp-hide col-md-6 col-md-offset-3">
+  <div id="popup" class="mfp-hide col-md-6 col-md-offset-3">
 	<div class="panel panel-default">
 	  <div class="panel-heading">
 		<b class="panel-title">パスワード変更</b>
 	  </div>
 	  <div class="panel-body">
-		<form action="" method="post">
+		<form th:action="@{/myaccount}" th:method="post" th:object="${PasswordChangeCheck}">
 		  <div class="form-group">
 			<label>現在のパスワード</label>
-			<input class="form-control" type="password" name="password">
+			<p class="text-danger" th:if="${errmsg1} != null" th:text="${errmsg1}"></p>
+			<input class="form-control" type="password" name="pastPass">
 		  </div>
 		  <div class="form-group">
 			<label>新しいパスワード</label>
-			<input class="form-control" type="password" name="password">
+			<input class="form-control" type="password" name="newPass">
 		  </div>
 		  <div class="form-group">
 			<label>新しいパスワード(確認用)</label>
-			<input class="form-control" type="password" name="password">
+			<p class="text-danger" th:if="${errmsg2} != null" th:text="${errmsg2}"></p>
+			<input class="form-control" type="password" name="checkPass">
 		  </div>
 		    <button class="btn" type="submit">更新</button>
 		</form>
