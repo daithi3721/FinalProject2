@@ -142,10 +142,18 @@ public class EmployeeController {
 	
 	@GetMapping("new")
     public String newEmployee(Model model) {
+		
 		Employee employee = new Employee();
+		String NewEmployeeId = employeeService.makeNewEmployeeId();
+		int activeEmployeesNumber = employeeService.getActiveEmployeesNumber();
+		List<String> prefectures = employeeService.getPrefecturesList();
+		
 		model.addAttribute("employee", employee);
+		model.addAttribute("NewEmployeeId", NewEmployeeId);
+		model.addAttribute("activeEmployeesNumber", activeEmployeesNumber);
+		model.addAttribute("prefectures", prefectures);
 	 
-        return "employee/new";
+        return "master/employee/new";
     }
 	
 	@GetMapping("{employee_id}/edit")
@@ -178,9 +186,11 @@ public class EmployeeController {
 	
 	@PostMapping
     public String create(@Valid @ModelAttribute Employee employee, BindingResult result) {
+		
 		if(result.hasErrors()) {
 			return "employee/new";
 		}
+		
 		Employee new_employee = employeeService.newEmployeeId(employee);
         employeeService.save(new_employee);
         

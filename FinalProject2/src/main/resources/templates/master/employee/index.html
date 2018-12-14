@@ -4,7 +4,7 @@
   	<div th:include="include/head"></div>
 </head>
 <head>
-<title>Insert title here</title>
+<title>従業員マスタ一覧</title>
 </head>
 	<body>
  		<div th:include="include/header"></div>
@@ -23,14 +23,14 @@
 									  				 <br><br>
 									  				 <b>性別:</b>&nbsp;
 									  				 <select class="form-control" name="sex" >
-														  <option th:value="未選択">ｰｰ</option>
-														  <option th:value="男性" th:selected="'男性' == ${session.sex}">男性</option>
-														  <option th:value="女性" th:selected="'女性' == ${session.sex}">女性</option>
+														  <option value="">ｰｰ</option>
+														  <option th:value="0" th:selected="'男性' == ${session.sex}">男性</option>
+														  <option th:value="1" th:selected="'女性' == ${session.sex}">女性</option>
 													 </select>
 													 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 													 <b>年齢:</b>&nbsp;
 													<select class="form-control" name="age"  th:value ="${session.age}" >
-															<option th:value="未選択">ｰｰ</option>
+															<option value="">ｰｰ</option>
 															<option th:value="20代" th:selected="'20代' == ${session.age}">20代</option>
 															<option th:value="30代" th:selected="'30代' == ${session.age}">30代</option>
 															<option th:value="40代" th:selected="'40代' == ${session.age}">40代</option>
@@ -39,13 +39,13 @@
 													&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 													<b>部署:</b>&nbsp;
 													<select class="form-control" name="department_name">
-										  					<option th:value="未選択">ｰｰ</option>
+										  					<option value="">ｰｰ</option>
 										  					<option th:each="department:${session.departments}"  th:value="${department.department_name}" th:selected="${department.department_name == session.department_name}">[[${department.department_name}]]</option>
 													</select>
 													&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 													<b>役職:</b>&nbsp;
 													<select class="form-control" name="position_name" >
-										  					<option th:value="未選択">ｰｰ</option>
+										  					<option value="">ｰｰ</option>
 										  					<option th:each="position:${session.positions}"  th:value="${position.position_name}" th:selected="${position.position_name == session.position_name}">[[${position.position_name}]]</option>
 													</select>
 													<br><br>
@@ -53,7 +53,7 @@
 											</form>	
 			  						</div>
 							</div>
-		      				<h3>従業員一覧　<a class="btn btn-primary pull-right" href="/trainApp2/members/new">新規作成</a></h3>
+		      				<h3>従業員一覧　<a class="btn btn-primary pull-right"  href="/FinalProject2/master/employee/new">新規作成</a></h3>
 		      				<table class="table table-hover table-sm table-bordered">
 		        					<thead>
 		          							<tr>
