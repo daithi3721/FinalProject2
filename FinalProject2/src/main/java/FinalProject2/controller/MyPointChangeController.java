@@ -19,6 +19,7 @@ import FinalProject2.model.UserAccount;
 import FinalProject2.service.BonusPointUseService;
 import FinalProject2.service.CostDivisionService;
 import FinalProject2.service.TaskMonthlyResultService;
+import FinalProject2.utility.UtilityMethod;
 
 @Controller
 @RequestMapping("mypointchange")
@@ -50,7 +51,7 @@ public class MyPointChangeController {
 	@PostMapping
 	public String pointForm(@ModelAttribute BonusPointUse bPU, Model model) {
 		UserAccount user = (UserAccount) session.getAttribute("user");
-		
+		bPointUS.save(user.getUsername(), bPU);
 		return "mypage/pointchange";
 	}
 	
