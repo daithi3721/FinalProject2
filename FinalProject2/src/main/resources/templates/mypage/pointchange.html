@@ -16,10 +16,9 @@
 			var flg = "0";
 			$('#form').submit( function( e ) {
 				$("#keihi_name").html($("#cost_name").val());
-				$("#keihi_kubun").html($("#cost_division option:selected").text());
+				$("#keihi_kubun").html($("#cost_division_id option:selected").text());
 				$("#keihi_money").html($("#bonus_point_use").val());
 				$("#keihi_detail").html($("#detail").val());
-				$("#keihi_detail").html(flg);
 		    	$.magnificPopup.open({
 		    		  items: {
 		    		    src: '#popup'
@@ -51,14 +50,14 @@
  		  	  </div>
  			</div>
  	  	  </div>
-		  <form th:method="post" th:action="@{mypointchange}" th:object="${BonusPointUse}" id="form" name="formdayo">
+		  <form th:method="post" th:action="@{mypointchange}" th:object="${BonusPointUseForm}" id="form" name="formdayo">
 		    <div class="form-group col-xs-7">
 			  <label>経費名</label>
  	  		  <input class="form-control" type="text" name="cost_name" id="cost_name" required></input>
  		  	</div>
 		  	<div class="form-group col-xs-7">
 	 		  <label>経費区分</label>
-	 	  	  <select class="form-control" name="cost_division" id="cost_division">
+	 	  	  <select class="form-control" name="cost_division_id" id="cost_division_id">
 				<option th:each="costDivision:${costDivision}" th:value="${costDivision.cost_division_id}" th:text="${costDivision.cost_division_name}">
 			  </select>
 		  	</div>
