@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import FinalProject2.model.Department;
 import FinalProject2.model.Employee;
+import FinalProject2.model.EmployeeNewForm;
 import FinalProject2.model.EmployeeSearch;
 import FinalProject2.model.Position;
 import FinalProject2.pagination.PagenationHelper;
@@ -143,12 +144,13 @@ public class EmployeeController {
 	@GetMapping("new")
     public String newEmployee(Model model) {
 		
-		Employee employee = new Employee();
+		EmployeeNewForm new_employee = new EmployeeNewForm();
+//		Employee new_employee = new Employee();
 		String NewEmployeeId = employeeService.makeNewEmployeeId();
 		int activeEmployeesNumber = employeeService.getActiveEmployeesNumber();
 		List<String> prefectures = employeeService.getPrefecturesList();
 		
-		model.addAttribute("employee", employee);
+		model.addAttribute("new_employee", new_employee);
 		model.addAttribute("NewEmployeeId", NewEmployeeId);
 		model.addAttribute("activeEmployeesNumber", activeEmployeesNumber);
 		model.addAttribute("prefectures", prefectures);
@@ -181,18 +183,18 @@ public class EmployeeController {
 		   // alternative processing....
 		}
 
-        return "employee/show";
+        return "master/employee/show";
     }
 	
 	@PostMapping
-    public String create(@Valid @ModelAttribute Employee employee, BindingResult result) {
+    public String create(@ModelAttribute EmployeeNewForm new_employee, BindingResult result) {
 		
 		if(result.hasErrors()) {
-			return "employee/new";
+			
+			return "master/employee/new";
 		}
 		
-		Employee new_employee = employeeService.newEmployeeId(employee);
-        employeeService.save(new_employee);
+//        employeeService.save(new_employee);
         
         return "redirect:/employee";
     }

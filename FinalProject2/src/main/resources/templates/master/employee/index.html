@@ -67,16 +67,16 @@
 		          							</tr>
 		        					</thead>
 		        					<tbody>
-		          							<tr th:each="employee:${employees}" >
-										            <td th:text="${employee.employee_id}"></td>
-										            <td th:text="${employee.employee_name}"></td>
-										            <td th:if="${employee.sex} == '0'" >男性</td>
-										            <td th:if="${employee.sex} == '1'" >女性</td>
-										            <td th:text="${employee.birthday}"></td>
-										            <td th:if="${employee.employmentInfo} != null" th:text="${employee.employmentInfo.department.department_name}"></td>
-										            <td th:if="${employee.employmentInfo} == null" >退職済</td>
-										            <td th:if="${employee.employmentInfo} != null" th:text="${employee.employmentInfo.position.position_name}"></td>
-										            <td th:if="${employee.employmentInfo} == null" >退職済</td>
+		          							<tr th:each="emplo:${employees}"  th:object="${emplo}">
+										            <td th:text="*{employee_id}"></td>
+										            <td th:text="*{employee_name}"></td>
+										            <td th:if="*{sex} == '0'" >男性</td>
+										            <td th:if="*{sex} == '1'" >女性</td>
+										            <td th:text="*{birthday}"></td>
+										            <td th:if="*{employmentInfo} != null" th:text="*{employmentInfo.department.department_name}"></td>
+										            <td th:if="*{employmentInfo} == null" >退職済</td>
+										            <td th:if="*{employmentInfo} != null" th:text="*{employmentInfo.position.position_name}"></td>
+										            <td th:if="*{employmentInfo} == null" >退職済</td>
 		            								<td>                                                                                     
 										            		<a class="btn btn-primary btn-xs" th:href="@{/master/employee/{employee_id}(employee_id=*{employee_id})}">詳細</a>
 										            		<a class="btn btn-primary btn-xs" th:href="@{/master/employee/{employee_id}/edit(employee_id=*{employee_id})}">編集</a>

@@ -24,23 +24,23 @@
  		  	  										</div>
  											</div>
  	  	  							</div>
-		  							<form method="post" action="pointchange/">
+		  							<form id="realForm" th:method="post"  th:action="@{./}"  th:object="${new_employee}">
 		  									<div class="form-group col-xs-7">
 			  										<label>従業員ID</label>
- 	  		  										<p th:value="${NewEmployeeId}">[[${NewEmployeeId}]]</p>
+ 	  		  										<input id="employee_id"  class="form-control"  th:value="${NewEmployeeId}" name="employee_id"  readonly>
  		  									</div>
 		    								<div class="form-group col-xs-7">
 			  										<label>氏名</label>
- 	  		  										<input class="form-control" name="employee_name" type="text">
+ 	  		  										<input id="employee_name" class="form-control" name="employee_name" type="text" required>
  		  									</div>
  		  									<div class="form-group col-xs-7">
 			  										<label>氏名カナ</label>
- 	  		  										<input class="form-control" name="employee_name_kana" type="text">
+ 	  		  										<input id="employee_name_kana" class="form-control" name="employee_name_kana" type="text" required>
  		  									</div>
  		  									<div class="form-group col-xs-7">
  		  											<label>性別</label>
 		 		  									<div class="form-check checkbox-inline">
-															<input class="form-check-input" type="radio" name="sex" id="inlineRadio1" value="0">
+															<input class="form-check-input" type="radio" name="sex" id="inlineRadio1" value="0" checked>
 													  		<label class="form-check-label" for="inlineRadio1">男性</label>
 													</div>
 													<div class="form-check checkbox-inline">
@@ -50,33 +50,33 @@
 											</div>
 		  									<div class="form-group col-xs-7">
 	 		  										<label>生年月日</label>
-											 	  	<input class="form-control" type="date" name="birthday" />
+											 	  	<input id="birthday" class="form-control"  type="date"  name="birthday"  required/>
 		  									</div>
 		  									<div class="form-group col-xs-7">
 			  										<label>電話番号</label>
- 	  		  										<input class="form-control" name="phone" type="text">
+ 	  		  										<input id="phone" class="form-control" name="phone"  type="text" required>
  		  									</div>
  		  									<div class="form-group col-xs-7">
 			  										<label>郵便番号</label>
- 	  		  										<input class="form-control" name="postal" type="text">
+ 	  		  										<input id="postal" class="form-control" name="postal"  type="text" required>
  		  									</div>
  		  									<div class="form-group col-xs-7">
 									 				<label>都道府県</label>
-									 	  			<select class="form-control" name="prefecture">
+									 	  			<select id="prefecture" class="form-control" name="prefecture">
 															<option th:each="prefecture:${prefectures}" th:value="${prefecture}" th:text="${prefecture}">
 											  		</select>
 											</div>
 											<div class="form-group col-xs-7">
 			  										<label>住所１</label>
- 	  		  										<input class="form-control" name="address1" type="text">
+ 	  		  										<input id="address1" class="form-control" name="address1"  type="text" required>
  		  									</div>
  		  									<div class="form-group col-xs-7">
 			  										<label>住所２</label>
- 	  		  										<input class="form-control" name="address2" type="text">
+ 	  		  										<input id="address2" class="form-control" name="address2" type="text" required>
  		  									</div>
  		  									<div class="form-group col-xs-7">
 	 		  										<label>入社日</label>
-											 	  	<input class="form-control" type="date" name="hire_date" />
+											 	  	<input id="hire_date" class="form-control" type="date" name="hire_date"  required/>
 		  									</div>
 		  									<div class="form-group col-xs-7">
 	 		  										<label>退社日</label>
@@ -85,11 +85,11 @@
 													<label class="form-check-label" for="quitFlgCheck">退社日を登録する</label>
 		  									</div>
 										    <div class="col-xs-4 col-xs-offset-4">
-										  			<button class="btn btn-primary col-xs-12 center-block" type="submit">送信</button>
-										  	</div>
+										  			<button class="btn btn-primary col-xs-12 center-block" id="popup_btn">送信</button>
+											</div>
 	 	  							</form>
  	    					</div>
- 	  				</div> 	
+ 	  				</div>
 			</div>
 			<div id="pass-popup" class="mfp-hide col-md-6 col-md-offset-3">
 					<div class="panel panel-default">
@@ -97,20 +97,57 @@
 									<b class="panel-title">登録情報の確認</b>
 	  						</div>
 	  						<div class="panel-body">
-									<form action="" method="post">
+									<form>
 		  									<div class="form-group">
 													<label>従業員ID</label>
-													<p id="employee_id"></p>
+													<span id="employee_id_pop"></span>
 		  									</div>
 		  									<div class="form-group">
-													<label>新しいパスワード</label>
-													<input class="form-control" type="password" name="password">
+													<label>氏名</label>
+													<span id="employee_name_pop"></span>
 		  									</div>
 		  									<div class="form-group">
-													<label>新しいパスワード(確認用)</label>
-													<input class="form-control" type="password" name="password">
+													<label>氏名カナ</label>
+													<span id="employee_name_kana_pop"></span>
 		  									</div>
-		    								<button class="btn" type="submit">更新</button>
+		  									<div class="form-group">
+													<label>性別</label>
+													<span id="sex_pop"></span>
+		  									</div>
+		  									<div class="form-group">
+													<label>生年月日</label>
+													<span id="birthday_pop"></span>
+		  									</div>
+		  									<div class="form-group">
+													<label>電話番号</label>
+													<span id="phone_pop"></span>
+		  									</div>
+		  									<div class="form-group">
+													<label>郵便番号</label>
+													<span id="postal_pop"></span>
+		  									</div>
+		  									<div class="form-group">
+													<label>都道府県</label>
+													<span id="prefecture_pop"></span>
+		  									</div>
+		  									<div class="form-group">
+													<label>住所１</label>
+													<span id="address1_pop"></span>
+		  									</div>
+		  									<div class="form-group">
+													<label>住所２</label>
+													<span id="address2_pop"></span>
+		  									</div>
+		  									<div class="form-group">
+													<label>入社日</label>
+													<span id="hire_date_pop"></span>
+		  									</div>
+		  									<div class="form-group">
+													<label>退社日</label>
+													<span id="quit_date_pop"></span>
+		  									</div>
+		  									
+		    								<button class="btn"  onclick="sub()">登録</button>
 									</form>
 	  						</div>
 					</div>
@@ -125,13 +162,46 @@
 					        			$("#quit_date_form").prop('disabled', true);
 					        		}
 					    	});
-							
-							$('#pass-pop').magnificPopup({
-									type:'inline'
-							});
-							
-							
-					    
+
+							$('#popup_btn').click(function(event) {
+//								event.preventDefault();
+									$("#realForm").submit( function( e ) {
+										
+										$("#employee_id_pop").html($("#employee_id").val());
+										$("#employee_name_pop").html($("#employee_name").val());
+										$("#employee_name_kana_pop").html($("#employee_name_kana").val());
+										var sexInt = $('input[name=sex]:checked').val();
+										var sexStr = null;
+										if(sexInt == 0){
+											sexStr = '男性';
+										} else if (sexInt == 1){
+											sexStr = '女性';
+										}
+										$("#sex_pop").html(sexStr);
+										$("#birthday_pop").html($("#birthday").val());
+										$("#phone_pop").html($("#phone").val());
+										$("#postal_pop").html($("#postal").val());
+										$("#prefecture_pop").html($("#prefecture option:selected").val());
+										$("#address1_pop").html($("#address1").val());
+										$("#address2_pop").html($("#address2").val());
+										$("#hire_date_pop").html($("#hire_date").val());
+										$("#quite_date_pop").html($("#quite_date").val());
+										
+								    	$.magnificPopup.open({
+								    		  items: {
+								    		    src: '#pass-popup'
+								    		  },
+								    		  type: 'inline'
+								    		});
+								    	return false;
+							    	} );
+								});
+					
+							function sub() {
+								$("#realForm").attr('method', 'POST');
+								$("#realForm").submit();
+							}
+
 					});
 			</script>
  	</body>
