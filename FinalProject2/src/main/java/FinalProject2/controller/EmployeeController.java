@@ -144,8 +144,8 @@ public class EmployeeController {
 	@GetMapping("new")
     public String newEmployee(Model model) {
 		
-		EmployeeNewForm new_employee = new EmployeeNewForm();
-//		Employee new_employee = new Employee();
+		//EmployeeNewForm new_employee = new EmployeeNewForm();
+		Employee new_employee = new Employee();
 		String NewEmployeeId = employeeService.makeNewEmployeeId();
 		int activeEmployeesNumber = employeeService.getActiveEmployeesNumber();
 		List<String> prefectures = employeeService.getPrefecturesList();
@@ -187,7 +187,7 @@ public class EmployeeController {
     }
 	
 	@PostMapping
-    public String create(@ModelAttribute EmployeeNewForm new_employee, BindingResult result) {
+    public String create(@ModelAttribute Employee new_employee, BindingResult result) {
 		
 		if(result.hasErrors()) {
 			

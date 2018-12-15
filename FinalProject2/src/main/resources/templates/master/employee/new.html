@@ -24,7 +24,7 @@
  		  	  										</div>
  											</div>
  	  	  							</div>
-		  							<form id="realForm" th:method="post"  th:action="@{./}"  th:object="${new_employee}">
+		  							<form id="realForm"  name="realForm" th:method="post"  th:action="@{./}"  th:object="${new_employee}">
 		  									<div class="form-group col-xs-7">
 			  										<label>従業員ID</label>
  	  		  										<input id="employee_id"  class="form-control"  th:value="${NewEmployeeId}" name="employee_id"  readonly>
@@ -50,7 +50,7 @@
 											</div>
 		  									<div class="form-group col-xs-7">
 	 		  										<label>生年月日</label>
-											 	  	<input id="birthday" class="form-control"  type="date"  name="birthday"  required/>
+											 	  	<input id="birthday" class="form-control" type="date" name="birthday"  required/>
 		  									</div>
 		  									<div class="form-group col-xs-7">
 			  										<label>電話番号</label>
@@ -97,7 +97,7 @@
 									<b class="panel-title">登録情報の確認</b>
 	  						</div>
 	  						<div class="panel-body">
-									<form>
+									<div>
 		  									<div class="form-group">
 													<label>従業員ID</label>
 													<span id="employee_id_pop"></span>
@@ -147,8 +147,8 @@
 													<span id="quit_date_pop"></span>
 		  									</div>
 		  									
-		    								<button class="btn"  onclick="sub()">登録</button>
-									</form>
+		    								<button class="btn" id="realFormSubmit">登録</button>
+									</div>
 	  						</div>
 					</div>
   			</div>
@@ -163,45 +163,44 @@
 					        		}
 					    	});
 
-							$('#popup_btn').click(function(event) {
-//								event.preventDefault();
-									$("#realForm").submit( function( e ) {
-										
-										$("#employee_id_pop").html($("#employee_id").val());
-										$("#employee_name_pop").html($("#employee_name").val());
-										$("#employee_name_kana_pop").html($("#employee_name_kana").val());
-										var sexInt = $('input[name=sex]:checked').val();
-										var sexStr = null;
-										if(sexInt == 0){
-											sexStr = '男性';
-										} else if (sexInt == 1){
-											sexStr = '女性';
-										}
-										$("#sex_pop").html(sexStr);
-										$("#birthday_pop").html($("#birthday").val());
-										$("#phone_pop").html($("#phone").val());
-										$("#postal_pop").html($("#postal").val());
-										$("#prefecture_pop").html($("#prefecture option:selected").val());
-										$("#address1_pop").html($("#address1").val());
-										$("#address2_pop").html($("#address2").val());
-										$("#hire_date_pop").html($("#hire_date").val());
-										$("#quite_date_pop").html($("#quite_date").val());
-										
-								    	$.magnificPopup.open({
-								    		  items: {
-								    		    src: '#pass-popup'
-								    		  },
-								    		  type: 'inline'
-								    		});
-								    	return false;
-							    	} );
-								});
-					
-							function sub() {
-								$("#realForm").attr('method', 'POST');
-								$("#realForm").submit();
-							}
+							$('#popup_btn').click(function() {
+								$("#realForm").submit( function(e) {
+									
+									$("#employee_id_pop").html($("#employee_id").val());
+									$("#employee_name_pop").html($("#employee_name").val());
+									$("#employee_name_kana_pop").html($("#employee_name_kana").val());
+									var sexInt = $('input[name=sex]:checked').val();
+									var sexStr = null;
+									if(sexInt == 0){
+										sexStr = '男性';
+									} else if (sexInt == 1){
+										sexStr = '女性';
+									}
+									$("#sex_pop").html(sexStr);
+									$("#birthday_pop").html($("#birthday").val());
+									$("#phone_pop").html($("#phone").val());
+									$("#postal_pop").html($("#postal").val());
+									$("#prefecture_pop").html($("#prefecture option:selected").val());
+									$("#address1_pop").html($("#address1").val());
+									$("#address2_pop").html($("#address2").val());
+									$("#hire_date_pop").html($("#hire_date").val());
+									$("#quite_date_pop").html($("#quite_date").val());
+									
+							    	$.magnificPopup.open({
+							    		  items: {
+							    		    src: '#pass-popup'
+							    		  },
+							    		  type: 'inline'
+							    	});
+									return false;
 
+							});
+							
+							$('#realFormSubmit').click(function() {
+								document.realForm.submit();
+							});
+
+							});
 					});
 			</script>
  	</body>

@@ -177,4 +177,10 @@ public class EmployeeService {
 		
 	}
 
+	public void saveFirst(Employee new_employee) {
+			
+		
+		
+	}
+
 }
