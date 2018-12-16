@@ -194,7 +194,7 @@ public class EmployeeController {
 			return "master/employee/new";
 		}
 		
-//        employeeService.save(new_employee);
+		employeeService.saveFirst(new_employee);
         
         return "redirect:/employee";
     }
