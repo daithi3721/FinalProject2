@@ -1,11 +1,15 @@
 package FinalProject2.service;
 
+import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
+
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -15,17 +19,22 @@ import org.springframework.transaction.annotation.Transactional;
 
 import FinalProject2.model.Employee;
 import FinalProject2.model.EmployeeSearch;
+import FinalProject2.model.UserAccount;
 import FinalProject2.repository.EmployeeRepository;
 
 @Service
 @Transactional
 public class EmployeeService {
 	
+	HttpSession session;
+	
 	@Autowired
 	EmployeeRepository repository;
 	
 	//20行ごとにページングするように設定
 	private static final int PAGE_SIZE=20;
+	
+	private static final String 
 	
 	//pagination実装のためにListからPageに戻り値の型を変更。キャストも追加
 	public Page<Employee> findAll(int page) {
@@ -178,9 +187,23 @@ public class EmployeeService {
 	}
 
 	public void saveFirst(Employee new_employee) {
+		
+		LocalDate localdate_now = LocalDate.now();
+		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+		UserAccount  makeUserAccount = (UserAccount) session.getAttribute("user");
+		String makeUserName  = makeUserAccount.getUsername();
+		
+		new_employee.setMake_date(timestamp);
+		new_employee.setMake_user(makeUserName);
+		new_employee.setPassword("123456");
+		new_employee.setPassword_update(localdate_now);
+		new_employee.setUpdate_date(timestamp);
+		new_employee.setUpdate_user(makeUserName);
+		
+		repository.save(new_employee);
+		
+	}
 			
 		
 		
-	}
-
 }
