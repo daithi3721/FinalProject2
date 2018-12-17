@@ -14,6 +14,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,7 +27,11 @@ import FinalProject2.repository.EmployeeRepository;
 @Transactional
 public class EmployeeService {
 	
+	@Autowired
 	HttpSession session;
+	
+	@Autowired
+	PasswordEncoder passwordEncoder;
 	
 	@Autowired
 	EmployeeRepository repository;
@@ -34,7 +39,11 @@ public class EmployeeService {
 	//20行ごとにページングするように設定
 	private static final int PAGE_SIZE=20;
 	
-	private static final String 
+	//アカウント作成時の共通の初期パスワード
+	private static final String INITIAL_PASSWORD = "123456";
+	
+	//アカウント作成時の初期アカウントタイプ
+	private static final char INITIAL_ADMIN_TYPE = '0';
 	
 	//pagination実装のためにListからPageに戻り値の型を変更。キャストも追加
 	public Page<Employee> findAll(int page) {
@@ -191,19 +200,34 @@ public class EmployeeService {
 		LocalDate localdate_now = LocalDate.now();
 		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 		UserAccount  makeUserAccount = (UserAccount) session.getAttribute("user");
-		String makeUserName  = makeUserAccount.getUsername();
+		String makeUserID  = makeUserAccount.getUsername();
 		
+//		フォーム側では数値のみ入力できるように実装。
+		StringBuilder postal_remake = new StringBuilder();
+		postal_remake.append(new_employee.getPostal());
+		postal_remake.insert(3, "-");
+		
+		new_employee.setPostal(postal_remake.toString());
 		new_employee.setMake_date(timestamp);
-		new_employee.setMake_user(makeUserName);
-		new_employee.setPassword("123456");
+		new_employee.setMake_user(makeUserID);
+		new_employee.setPassword(passwordEncoder.encode(INITIAL_PASSWORD));
 		new_employee.setPassword_update(localdate_now);
 		new_employee.setUpdate_date(timestamp);
-		new_employee.setUpdate_user(makeUserName);
+		new_employee.setUpdate_user(makeUserID);
+		new_employee.setAdmin_type(INITIAL_ADMIN_TYPE);;
 		
 		repository.save(new_employee);
 		
 	}
-			
-		
+	
+	public boolean checkPass(String id, String pass) {
+        String dbPass = repository.findById(id).get().getPassword();
+        return passwordEncoder.matches(pass, dbPass);
+	}
+
+	@Transactional
+	public void changePass(String username, String newPass) {
+	        repository.changePass(username, passwordEncoder.encode(newPass));
+	}	
 		
 }

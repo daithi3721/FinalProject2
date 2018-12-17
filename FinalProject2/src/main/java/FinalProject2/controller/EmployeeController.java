@@ -17,6 +17,7 @@ import FinalProject2.model.Department;
 import FinalProject2.model.Employee;
 import FinalProject2.model.EmployeeNewForm;
 import FinalProject2.model.EmployeeSearch;
+import FinalProject2.model.EmploymentInfo;
 import FinalProject2.model.Position;
 import FinalProject2.pagination.PagenationHelper;
 import FinalProject2.service.DepartmentService;
@@ -187,7 +188,7 @@ public class EmployeeController {
     }
 	
 	@PostMapping
-    public String create(@ModelAttribute Employee new_employee, BindingResult result) {
+    public String create(@ModelAttribute Employee new_employee, BindingResult result, Model model) {
 		
 		if(result.hasErrors()) {
 			
@@ -195,8 +196,17 @@ public class EmployeeController {
 		}
 		
 		employeeService.saveFirst(new_employee);
+		
+		EmploymentInfo new_employmentInfo = new EmploymentInfo();
+		List<Department> departments = departmentService.findAll();
+		List<Position> positions = positionService.findAll();
+		
+		model.addAttribute("employment_info_id", new_employee.getEmployee_id());
+        model.addAttribute("new_employmentInfo", new_employmentInfo);
+        model.addAttribute("departments", departments);
+        model.addAttribute("positions", positions);
         
-        return "redirect:/employee";
+        return "master/employee/employment_info";
     }
 	
 	@PutMapping("{employee_id}")

@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
@@ -39,5 +40,10 @@ public interface EmployeeRepository extends JpaRepository<Employee, String> {
 			"Left join EmploymentInfo info on emplo.employee_id = info.employee_id " + 
 			"Where department_id Is Not Null")
 	public int findActiveEmployeeNumber();
+	
+	 @Modifying
+     @Query("UPDATE Employee emplo SET emplo.password = :newPass, emplo.password_update = GETDATE() WHERE emplo.employee_id = :username")
+     public void changePass(String username, String newPass);
+
 
 }
